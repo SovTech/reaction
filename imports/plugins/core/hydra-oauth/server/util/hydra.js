@@ -19,7 +19,7 @@ if (process.env.MOCK_TLS_TERMINATION) {
  * @returns {Object|String} API res
  */
 function get(flow, challenge) {
-  return fetch(`${HYDRA_ADMIN_URL}/oauth2/auth/requests/${flow}/${challenge}`)
+  return fetch(`${HYDRA_ADMIN_URL}/oauth2/auth/requests/${flow}?${flow}_challenge=${challenge}`)
     .then(async (res) => {
       if (res.status < 200 || res.status > 302) {
         const json = await res.json();
@@ -41,7 +41,7 @@ function get(flow, challenge) {
  * @returns {Object|String} API res
  */
 function put(flow, action, challenge, body) {
-  return fetch(`${HYDRA_ADMIN_URL}/oauth2/auth/requests/${flow}/${challenge}/${action}`, {
+  return fetch(`${HYDRA_ADMIN_URL}/oauth2/auth/requests/${flow}/${action}?${flow}_challenge=${challenge}`, {
     method: "PUT",
     body: JSON.stringify(body),
     headers: {
