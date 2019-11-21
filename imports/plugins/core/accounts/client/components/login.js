@@ -4,6 +4,8 @@ import Random from "@reactioncommerce/random";
 import { Components, registerComponent } from "@reactioncommerce/reaction-components";
 import { Router } from "/client/api";
 
+import { StyledAuth, StyledAuthLink } from "./styles.js";
+
 class Login extends Component {
   static propTypes = {
     credentials: PropTypes.object,
@@ -61,36 +63,57 @@ class Login extends Component {
     const isOauthFlow = currentRoute.options && currentRoute.options.meta && currentRoute.options.meta.oauthLoginFlow;
     const idpFormClass = isOauthFlow ? "idp-form" : "";
     const { currentView } = this.state;
+    const isLogin = window.location.search.includes("signin");
+    const isSignup = window.location.search.includes("signup");
+    const windowUrl = window.location.href;
+    const signupUrl = windowUrl.replace('signin', "signup");
+    const signinUrl = windowUrl.replace('signup', "signin");
+
     if (currentView === "loginFormSignInView" || currentView === "loginFormSignUpView" || currentView === "loginFormUpdatePasswordView") {
       if (isOauthFlow) {
         return (
-          <Components.OAuthFormContainer
-            credentials={this.props.credentials}
-            uniqueId={this.props.uniqueId}
-            onForgotPasswordClick={this.showForgotPasswordView}
-          />
+          <StyledAuth>
+            <Components.OAuthFormContainer
+              credentials={this.props.credentials}
+              uniqueId={this.props.uniqueId}
+              onForgotPasswordClick={this.showForgotPasswordView}
+            />
+            {isLogin && <StyledAuthLink>
+              <p>Don't have an account?</p>
+              <a className="auth-option" href={signupUrl}>Sign Up</a>
+            </StyledAuthLink>}
+
+            {isSignup && <StyledAuthLink>
+              <p>Already have an account?</p>
+              <a className="auth-option" href={signinUrl}>Login</a>
+            </StyledAuthLink>}
+          </StyledAuth>
         );
       }
       return (
-        <Components.AuthContainer
-          credentials={this.props.credentials}
-          uniqueId={this.props.uniqueId}
-          currentView={currentView}
-          onForgotPasswordClick={this.showForgotPasswordView}
-          onSignUpClick={this.showSignUpView}
-          onSignInClick={this.showSignInView}
-        />
-      );
-    } else if (currentView === "loginFormResetPasswordView") {
-      return (
-        <div className={idpFormClass}>
-          <Components.ForgotPassword
+        <StyledAuth>
+          <Components.AuthContainer
             credentials={this.props.credentials}
             uniqueId={this.props.uniqueId}
             currentView={currentView}
+            onForgotPasswordClick={this.showForgotPasswordView}
+            onSignUpClick={this.showSignUpView}
             onSignInClick={this.showSignInView}
           />
-        </div>
+        </StyledAuth>
+      );
+    } else if (currentView === "loginFormResetPasswordView") {
+      return (
+        <StyledAuth>
+          <div className={idpFormClass}>
+            <Components.ForgotPassword
+              credentials={this.props.credentials}
+              uniqueId={this.props.uniqueId}
+              currentView={currentView}
+              onSignInClick={this.showSignInView}
+            />
+          </div>
+        </StyledAuth>
       );
     }
 
