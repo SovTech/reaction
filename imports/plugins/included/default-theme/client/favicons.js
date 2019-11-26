@@ -5,7 +5,7 @@
 
 
 // folder path where all assets live
-const basePath = "https://www.pilotmail.io/assets/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdmh3IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--0164334db65f590b90419685e937694fb0289aab/favicon_online.png";
+const basePath = "https://assets.reactioncommerce.com/favicon/";
 
 
 // define link tags
@@ -13,28 +13,28 @@ const linkTags = [
   {
     rel: "apple-touch-icon",
     sizes: "180x180",
-    href: basePath
+    href: `${basePath}apple-touch-icon.png`
   },
   {
     rel: "icon",
     type: "image/png",
     sizes: "32x32",
-    href: basePath
+    href: `${basePath}favicon-32x32.png`
   },
   {
     rel: "icon",
     type: "image/png",
     sizes: "16x16",
-    href: basePath
+    href: `${basePath}favicon-16x16.png`
   },
   {
     rel: "manifest",
-    href: basePath
+    href: `${basePath}manifest.json`
   },
   {
     rel: "mask-icon",
     color: "#5bbad5",
-    href: basePath
+    href: `${basePath}safari-pinned-tab.svg`
   },
   {
     rel: "shortcut icon",
@@ -82,7 +82,7 @@ metaTags.forEach((tag) => addTag("meta", tag));
 
 // HTML output should look like this...
 //
-// <link rel="apple-touch-icon" sizes="180x180" href="https://assets.reactioncommerce./favicon>
+// <link rel="apple-touch-icon" sizes="180x180" href="https://assets.reactioncommerce.com/favicon/apple-touch-icon.png">
 // <link rel="icon" type="image/png" href="https://assets.reactioncommerce.com/favicon/favicon-32x32.png" sizes="32x32">
 // <link rel="icon" type="image/png" href="https://assets.reactioncommerce.com/favicon/favicon-16x16.png" sizes="16x16">
 // <link rel="manifest" href="https://assets.reactioncommerce.com/favicon/manifest.json">
