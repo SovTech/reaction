@@ -1,6 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Cookies from "js-cookie";
 import { Components, registerComponent } from "@reactioncommerce/reaction-components";
 import ForgotPassword from "../components/forgotPassword";
 import { LoginFormValidation } from "/lib/api";
@@ -23,6 +24,14 @@ class ForgotPasswordContainer extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.formMessages = this.formMessages.bind(this);
     this.hasError = this.hasError.bind(this);
+  }
+
+  componentDidMount() {
+    const action = document.URL.replace(/.*action=([^&]*).*|(.*)/, "$1");
+    const challenge = document.URL.replace(/.*login_challenge=([^&]*).*|(.*)/, "$1");
+
+    Cookies.set("action", action);
+    Cookies.set("challenge", challenge);
   }
 
   handleFormSubmit = async (event, email, mutation) => {

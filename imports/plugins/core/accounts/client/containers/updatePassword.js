@@ -1,6 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Cookies from "js-cookie";
 import ReactionError from "@reactioncommerce/reaction-error";
 import Random from "@reactioncommerce/random";
 import { Accounts } from "meteor/accounts-base";
@@ -65,6 +66,9 @@ const wrapComponent = (Comp) => (
         return;
       }
       const { token } = Router.current().params;
+      const action = Cookies.get("action");
+      const challenge = Cookies.get("challenge");
+
       Accounts.resetPassword(token, password, (error) => {
         if (error) {
           this.setState({
@@ -80,6 +84,11 @@ const wrapComponent = (Comp) => (
 
           if (Reaction.hasDashboardAccessForAnyShop()) {
             Router.go("/operator");
+          } else if (action && challenge) {
+            Cookies.remove("action");
+            Cookies.remove("challenge");
+
+            Router.go(`/account/login?action=${action}&login_challenge=${challenge}`);
           } else if (!storefrontUrls || !storefrontUrls.storefrontLoginUrl) {
             throw new ReactionError("error-occurred", "Missing storefront URLs. Please set these properties from the shop settings panel.");
           } else {
